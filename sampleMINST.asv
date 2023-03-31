@@ -1,0 +1,24 @@
+filenameImagesTrain = 'train-images-idx3-ubyte.gz';
+filenameLabelsTrain = 'train-labels-idx1-ubyte.gz';
+filenameImagesTest = 't10k-images-idx3-ubyte.gz';
+filenameLabelsTest = 't10k-labels-idx1-ubyte.gz';
+
+XTrain = processImagesMNIST(filenameImagesTrain);
+YTrain = processLabelsMNIST(filenameLabelsTrain);
+XTest = processImagesMNIST(filenameImagesTest);
+YTest = processLabelsMNIST(filenameLabelsTest);
+
+storeX = arrayDatastore(XTrain,'IterationDimension',4, ...
+ 'OutputType','cell');
+storeY = arrayDatastore(YTrain,'OutputType','cell');
+
+storeXtest = arrayDatastore(XTest,'IterationDimension',4, ...
+ 'OutputType','cell');
+storeYtest = arrayDatastore(YTest,'OutputType','cell');
+
+%storeXTrain = arrayDatastore(XTrain);
+%storeYTrain = arrayDatastore(YTrain);
+combineTrain = combine(storeX, storeY);
+combineTraintest = combine(storeXtest, storeYtest);
+YTestfinal = classify(trainedNetwork_1,storeXtest);
+accuracy = mean(yTestfinal = storeYt)
